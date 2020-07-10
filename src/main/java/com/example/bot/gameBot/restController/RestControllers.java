@@ -15,7 +15,7 @@ public class RestControllers {
    }
    @RequestMapping("/")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update){
-       System.out.println("********************restcontroller");
+       System.out.println("********************restcontroller"+update.getMessage().getText());
        return telegramMain.onWebhookUpdateReceived(update);
    }
 }
