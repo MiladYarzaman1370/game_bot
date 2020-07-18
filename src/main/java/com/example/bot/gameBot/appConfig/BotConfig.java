@@ -30,6 +30,7 @@ public class BotConfig {
         telegramMain.setBotToken(botToken);
         telegramMain.setBotUserName(botUserName);
         telegramMain.setBotWebhookPath(botWebhookPath);
+        System.out.println(botToken+botUserName+botWebhookPath);
         return telegramMain;
     }
 }
