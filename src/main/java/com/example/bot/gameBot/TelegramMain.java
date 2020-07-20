@@ -1,6 +1,7 @@
 package com.example.bot.gameBot;
 
 
+import com.example.bot.gameBot.services.CheckUserType;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
@@ -144,73 +145,33 @@ public class TelegramMain extends TelegramWebhookBot {
         }*/
         if (update.hasMessage() && update.getMessage().hasText())
         {
+
+
+
             final Message message = update.getMessage();
             ReplyKeyboard markup = null;
             if (message.getText().startsWith("/s"))
             {
+                sendInlinKey(message);
+            }
+            else{
                 SendMessage sendMessage=new SendMessage();
-                //sendMessage.setText("کدام گزینه صحیح می باشد؟\n "+"1:میلاد\n"+"2:حسین\n"+"3:فواد");
-               /* sendMessage.setText("پیام آیات 15 و 16 سوره هود چیست؟         \n" +
-                        "\n" +
-                        "الف) کسانی که تنها هدفشان زندگى دنیا و زرق و برق و زینت آن باشد، به آن نخواهند رسید.    \n" +
-                        "\n" +
-                        "ب) کسانی که تنها هدفشان زندگى دنیا و زرق و برق و زینت آن باشد، خداوند ثمره تلاششان را به آنان خواهد داد (دنیا و زینت هایش را به آنان می دهد) اما در آخرت چیزی جز آتش برایشان نخواهد بود        \n" +
-                        "\n" +
-                        "ج) کسانی که تنها هدفشان زندگی دنیا باشند در همین دنیا آنان را عذابی سخت می کنیم     \n" +
-                        "\n" +
-                        "د) الف و ج\n" +
-                        "\n" +
-                        "\n" +
-                        "\n"
-                        );*/
-                sendMessage.setParseMode(ParseMode.HTML);
-                sendMessage.setText("<a href='https://www.google.com'>milad</a><input type=\"radio\" value=\"male\">\n" +
-                        "<label for=\"male\">Male</label><br>\n" );
-
-                sendMessage.setChatId(update.getMessage().getChatId());
-                try {
+                sendMessage.setChatId(Long.toString(message.getChat().getId()));
+                sendMessage.setText("invalid inpout");
+                sendMessage.setReplyToMessageId(message.getMessageId());
+                sendMessage.setReplyMarkup(markup);
+                try
+                {
                     execute(sendMessage);
-                } catch (TelegramApiException e) {
+                }
+                catch (TelegramApiException e)
+                {
+                    // LOGGER.warn("Failed to execute SendMessage: ", e);
                     e.printStackTrace();
                 }
-                markup = new InlineKeyboardMarkup();
-                final List<List<InlineKeyboardButton>> keyboard = ((InlineKeyboardMarkup) markup).getKeyboard();
-                for (int i = 0; i < 4; i++)
-                {
-                    if (keyboard.isEmpty() || (keyboard.get(keyboard.size() - 1).size() >= 3))
-                    {
-                        keyboard.add(new ArrayList<>());
-                    }
-                    keyboard.get(keyboard.size() - 1).add(new InlineKeyboardButton().setText("🔘 گزینه:#" + (i + 1)).setCallbackData("Button callback " + (i + 1)));
-                }
             }
-            else if (message.getText().startsWith("/keyboard"))
-            {
-                markup = new ReplyKeyboardMarkup();
-                final List<KeyboardRow> keyboard = ((ReplyKeyboardMarkup) markup).getKeyboard();
-                for (int i = 0; i < 9; i++)
-                {
-                    if (keyboard.isEmpty() || (keyboard.get(keyboard.size() - 1).size() >= 3))
-                    {
-                        keyboard.add(new KeyboardRow());
-                    }
-                    keyboard.get(keyboard.size() - 1).add(new KeyboardButton().setText("🔘 Button #" + (i + 1)));
-                }
-            }
-            final SendMessage msg = new SendMessage();
-            msg.setChatId(Long.toString(message.getChat().getId()));
-            msg.setText("Your text here");
-            msg.setReplyToMessageId(message.getMessageId());
-            msg.setReplyMarkup(markup);
-            try
-            {
-                execute(msg);
-            }
-            catch (TelegramApiException e)
-            {
-               // LOGGER.warn("Failed to execute SendMessage: ", e);
-                e.printStackTrace();
-            }
+
+
         }
         else if (update.hasCallbackQuery())
         {
@@ -230,6 +191,89 @@ public class TelegramMain extends TelegramWebhookBot {
             }
         }
         return null;
+    }
+
+    private void sendInlinKey(Message message) {
+        CheckUserType checkUserType=new CheckUserType();
+        switch (checkUserType.check(message.getFrom().getId().toString())){
+            case ConstVariable.USER_TYPE_ROOT:
+                sendInlinKeyRootAdmin(message);
+                break;
+            case ConstVariable.USER_TYPE_ADMIN:
+                sendInlinKeyAdmin(message);
+                break;
+            case ConstVariable.USER_TYPE_TEACHER:
+                break;
+            default:
+                sendInlinKeyStudent(message);
+        }
+    }
+
+    private void sendInlinKeyRootAdmin(Message message) {
+
+
+        SendMessage sendMessage=new SendMessage();
+
+
+        sendMessage.setChatId(message.getChatId());
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        final List<List<InlineKeyboardButton>> keyboard = ((InlineKeyboardMarkup) markup).getKeyboard();
+
+                keyboard.add(new ArrayList<>());
+
+            keyboard.get(keyboard.size() - 1).add(new InlineKeyboardButton().setText("آزمون جدید").setCallbackData("آزمون جدید "));
+
+        keyboard.add(new ArrayList<>());
+
+        keyboard.get(keyboard.size() - 1).add(new InlineKeyboardButton().setText("مدیر جدید").setCallbackData("مدیر جدید "));
+    }
+    private void sendInlinKeyAdmin(Message message) {
+
+
+        SendMessage sendMessage=new SendMessage();
+
+
+        sendMessage.setChatId(message.getChatId());
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        final List<List<InlineKeyboardButton>> keyboard = ((InlineKeyboardMarkup) markup).getKeyboard();
+
+        keyboard.add(new ArrayList<>());
+
+        keyboard.get(keyboard.size() - 1).add(new InlineKeyboardButton().setText("آزمون جدید").setCallbackData("آزمون جدید "));
+
+    }
+    private void sendInlinKeyStudent(Message message) {
+
+
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setText("لطفا گزینه مورد نظر را انتخاب کنید؟");
+
+        sendMessage.setChatId(message.getChatId());
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        final List<List<InlineKeyboardButton>> keyboard = ((InlineKeyboardMarkup) markup).getKeyboard();
+
+        keyboard.add(new ArrayList<>());
+
+        keyboard.get(keyboard.size() - 1).add(new InlineKeyboardButton().setText("شرکت در آزمون ").setCallbackData(" شرکت در آزمون  "));
+
+        keyboard.add(new ArrayList<>());
+
+        keyboard.get(keyboard.size() - 1).add(new InlineKeyboardButton().setText("مشاهده امتیاز").setCallbackData("مشاهده امتیاز  "));
     }
 
 

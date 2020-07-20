@@ -1,6 +1,7 @@
 package com.example.bot.gameBot.appConfig;
 
 import com.example.bot.gameBot.TelegramMain;
+import com.example.bot.gameBot.services.ManageNewMessage;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -32,5 +33,11 @@ public class BotConfig {
         telegramMain.setBotWebhookPath(botWebhookPath);
         System.out.println(botToken+botUserName+botWebhookPath);
         return telegramMain;
+    }
+    @Bean
+    public ManageNewMessage MyManageNewMessage(){
+        ManageNewMessage manageNewMessage=new ManageNewMessage(MySuperTelegramBot());
+        return manageNewMessage;
+
     }
 }
