@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.logging.Logger;
+
 @RestController
 public class RestControllers {
 
@@ -17,11 +19,12 @@ public class RestControllers {
     }
    @RequestMapping("/bt")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update){
-
+       System.out.println(update.getMessage().getText());
        return manageNewMessage.manageUpdate(update);
    }
-  /* @RequestMapping("/")
+  @RequestMapping("/print")
     public String in(){
-       return "is ok";
-   }*/
+      System.out.println("call print func in controller.");
+       return "print is ok";
+   }
 }
