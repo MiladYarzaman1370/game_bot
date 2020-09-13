@@ -15,7 +15,7 @@ public class RestControllers {
     RestControllers(ManageNewMessage manageNewMessage){
         this.manageNewMessage=manageNewMessage;
     }
-   @RequestMapping("/")
+   @RequestMapping("/bt")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update){
 
        return manageNewMessage.manageUpdate(update);
