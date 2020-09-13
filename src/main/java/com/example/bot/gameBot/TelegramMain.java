@@ -1,38 +1,25 @@
 package com.example.bot.gameBot;
 
 
-import com.example.bot.gameBot.services.CheckUserType;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-
 
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Math.toIntExact;
 
 public class TelegramMain extends TelegramWebhookBot {
     private String botWebhookPath;
@@ -194,8 +181,9 @@ public class TelegramMain extends TelegramWebhookBot {
     }
 
     private void sendInlinKey(Message message) {
-        CheckUserType checkUserType=new CheckUserType();
-        switch (checkUserType.check(message.getFrom().getId().toString())){
+        //CheckUserType checkUserType=new CheckUserType();
+       // switch (checkUserType.check(message.getFrom().getId().toString())){
+        switch (ConstVariable.USER_TYPE_ROOT){
             case ConstVariable.USER_TYPE_ROOT:
                 sendInlinKeyRootAdmin(message);
                 break;
