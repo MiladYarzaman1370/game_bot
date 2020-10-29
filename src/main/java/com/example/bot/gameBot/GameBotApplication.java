@@ -18,6 +18,7 @@ public class GameBotApplication {
 		ApiContextInitializer.init();
 		SpringApplication.run(GameBotApplication.class, args);
 	}
+	/*
 	@Bean
 	public ServletWebServerFactory serveltContainer(){
 		TomcatServletWebServerFactory tomcat=new TomcatServletWebServerFactory(){
@@ -42,6 +43,6 @@ public class GameBotApplication {
 		connector.setSecure(false);
 		connector.setRedirectPort(443);
 		return connector;
-	}
+	}*/
 
 }
